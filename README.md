@@ -19,7 +19,7 @@
 
 # Create a config file
 
-Create a python file called `config.py` in your current directory.  `latexsnapshots` will look in your current
+Create a python file called [config.py](config.py) in your current directory.  `latexsnapshots` will look in your current
 directory to import this file.
 
         ###########################################
