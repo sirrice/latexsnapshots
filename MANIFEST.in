@@ -1,0 +1,3 @@
+include README.md
+recursive-include latexsnapshots/templates *
+recursive-include latexsnapshots/static *
