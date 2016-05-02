@@ -62,6 +62,9 @@ directory to import this file.
         # minimum edit distance of tex files to take a snapshot (4000 is pretty conservative)
         min_edit_distance = 1000
 
+        # Don't create a snapshot if the previous one was within X hours of this commit
+        min_hours_gap = 12
+
         # where to store the data, no need to change this
         dburi = "sqlite:///latex2.db"
 

@@ -38,6 +38,9 @@ def make_cmds(dstpath):
 # minimum edit distance of tex files to take a snapshot
 min_edit_distance = 4000
 
+# Don't create a snapshot if the previous one was within X hours of this commit
+min_hours_gap = 12
+
 # where to store the data, no need to change this
 dburi = "sqlite:///latex2.db"
 

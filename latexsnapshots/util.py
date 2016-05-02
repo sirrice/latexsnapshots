@@ -163,6 +163,12 @@ def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir=""):
   while idx < len(commits_list) - 1:
     idx += 1
     after = commits_list[idx]
+
+    timespan = (after.committed_date - before.committed_date)
+    timespan = timespan / 1000. / 60 / 60
+    if timespan <= min_hours_gap:
+      continue
+
     before_dt = datetime.fromtimestamp(time.mktime(time.gmtime(before.committed_date)))
     after_dt = datetime.fromtimestamp(time.mktime(time.gmtime(after.committed_date)))
     print idx, after_dt.strftime("%m-%d-%y %H:%M")
