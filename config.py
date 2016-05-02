@@ -14,10 +14,12 @@ paper_name = "infovis16_approx"
 # the latex document directory (within the git repo)
 latex_dir = "docs/infovis16_approx"
 
+# A function that returns shell commands for compiling the latex doc and 
+# copying it to the destination location
 def make_cmds(dstpath):
   """
   @param dstpath Where the generated latex file should be moved to
-  @return a list of commands to run to generate the latex file and move it to dstpath
+  @return a list of shell commands to run to generate the latex file and move it to dstpath
   """
   cmds = [
     "cd /tmp/animated/docs/infovis16_approx",

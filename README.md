@@ -22,10 +22,14 @@
 Create a python file called `config.py` in your current directory.  `latexsnapshots` will look in your current
 directory to import this file.
 
-        # where to store the data, no need to change this
-        dburi = "sqlite:///latex2.db"
+        ###########################################
+        #
+        #    Required
+        #
+        ##########################################
 
-        # absolute path to the git_repo for your paper
+
+        # absolute path to the git_repo
         git_repo = "/tmp/animated"
 
         # what name for the paper?
@@ -34,10 +38,12 @@ directory to import this file.
         # the latex document directory (within the git repo)
         latex_dir = "docs/infovis16_approx"
 
+        # A function that returns shell commands for compiling the latex doc and 
+        # copying it to the destination location
         def make_cmds(dstpath):
           """
           @param dstpath Where the generated latex file should be moved to
-          @return a list of commands to run to generate the latex file and move it to dstpath
+          @return a list of shell commands to run to generate the latex file and move it to dstpath
           """
           cmds = [
             "cd /tmp/animated/docs/infovis16_approx",
@@ -45,4 +51,17 @@ directory to import this file.
             "cp latex.out/main.pdf %s" % dstpath
           ]
           return cmds
+
+
+        ###########################################
+        #
+        #    Optional
+        #
+        ##########################################
+
+        # minimum edit distance of tex files to take a snapshot (4000 is pretty conservative)
+        min_edit_distance = 1000
+
+        # where to store the data, no need to change this
+        dburi = "sqlite:///latex2.db"
 
