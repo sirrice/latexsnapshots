@@ -1,6 +1,8 @@
-# readme
+# Screenshot
 
-Usage
+![Screenshot of latexsnapshots](https://raw.githubusercontent.com/sirrice/latexsnapshots/master/latexsnapshots/static/screenshot.png)
+
+# Usage
 
 * Create a config file (below)
 * Generate snapshots of your latex document.  The code currently creates a snapshot every time
