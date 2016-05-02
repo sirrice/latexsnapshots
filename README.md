@@ -7,10 +7,12 @@ Usage
   the Levenshtein distance between the `*.tex` documents is greater than 4000.  In the future, this can be
   configurable
 
-        latexsnapshot latex
+        latexsnapshots latex
+
+  * Note that `latexsnapshots` will create a sqlite database file based on your config file contents.  The path is relative to your current directory.
 * Run the server to see thumbnails of your snapshots
 
-        latexsnapshot server
+        latexsnapshots server
 
 
 # Create a config file
