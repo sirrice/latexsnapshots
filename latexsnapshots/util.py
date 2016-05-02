@@ -168,7 +168,7 @@ def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir=""):
     print idx, after_dt.strftime("%m-%d-%y %H:%M")
 
     dist = proc_diffidx(before.diff(after), latex_dir)
-    if dist > 5000:
+    if dist > min_edit_distance:
       try:
         records = snapshot_latex(repo, after, idx, paper_name, cmd_f)
         for o in records:

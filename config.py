@@ -1,5 +1,9 @@
-# where to store the data, no need to change this
-dburi = "sqlite:///latex2.db"
+###########################################
+#
+#    Required
+#
+##########################################
+
 
 # absolute path to the git_repo
 git_repo = "/tmp/animated"
@@ -22,4 +26,16 @@ def make_cmds(dstpath):
   ]
   return cmds
 
+
+###########################################
+#
+#    Optional
+#
+##########################################
+
+# minimum edit distance of tex files to take a snapshot
+min_edit_distance = 4000
+
+# where to store the data, no need to change this
+dburi = "sqlite:///latex2.db"
 
