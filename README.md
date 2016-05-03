@@ -15,6 +15,10 @@
 * Run the server to see thumbnails of your snapshots
 
         latexsnapshots server
+* Export everything into a folder for deployment as static website
+
+        mkdir outputdir
+        latexsnapshots export -o outputdir
 
 
 # Create a config file
