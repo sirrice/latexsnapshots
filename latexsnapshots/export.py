@@ -58,16 +58,17 @@ def export(outdir):
   static_dir = os.path.join(CURDIR, 'static')
 
   os.system("mkdir -p %s" % outdir)
+  os.system("mkdir -p %s" % os.path.join(outdir, 'html'))
   os.system("cp -r %s %s/" % (static_dir, outdir))
   db = engine.connect()
-  with file(os.path.join(outdir, "index.html"), 'w') as f:
+  with file(os.path.join(outdir, "html/index.html"), 'w') as f:
     f.write(index(db, CURDIR))
 
 
   cur = db.execute("select distinct paper_name from papers")
   papers = [row[0] for row in cur]
   for paper_name in papers:
-    with file(os.path.join(outdir, "%s.html" % paper_name), 'w') as f:
+    with file(os.path.join(outdir, "html/%s.html" % paper_name), 'w') as f:
       f.write(paper(db, paper_name, CURDIR))
 
 

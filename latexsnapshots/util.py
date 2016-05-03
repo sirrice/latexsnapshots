@@ -166,7 +166,7 @@ def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir=""):
     idx += 1
     after = commits_list[idx]
 
-    timespan = (after.committed_date - before.committed_date)
+    timespan = abs(after.committed_date - before.committed_date)
     timespan = timespan / 1000. / 60 / 60
     if timespan <= min_hours_gap:
       continue

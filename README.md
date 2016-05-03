@@ -2,6 +2,9 @@
 
 ![Screenshot of latexsnapshots](https://raw.githubusercontent.com/sirrice/latexsnapshots/master/latexsnapshots/static/screenshot.png)
 
+
+See the output of the `export` command here [http://www.eugenewu.net/latexsnapshots/html/](http://www.eugenewu.net/latexsnapshots/html/)
+
 # Usage
 
 * Create a config file (below)
