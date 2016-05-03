@@ -23,6 +23,8 @@ os.system("mkdir -p %s" % PDFROOT)
 os.system("mkdir -p %s" % IMGROOT)
 
 
+
+
 def save_record(db, row, paper_name, commit, dt, commit_idx):
   q = """INSERT INTO papers VALUES(?, ?, ?, ?, ?, ?, ?)"""
   db.execute(q, (paper_name, str(commit), commit_idx, dt, row['pdfpath'], row['imgpath'], row['imgidx']))

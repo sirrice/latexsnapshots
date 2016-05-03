@@ -14,6 +14,7 @@ from wand.color import Color
 
 from latexsnapshots.server import run_server
 from latexsnapshots.util import proc_latex
+from latexsnapshots.export import export
 
 
 
@@ -22,8 +23,9 @@ if __name__ == '__main__':
   @click.command()
   @click.argument("cmd", nargs=1)
   @click.option("-h", type=int, default=350, help="screenshot height")
+  @click.option("-o", help="output directory for exporting")
   @click.option("--port", type=int, default=8000, help="webserver port")
-  def main(cmd, h, port):
+  def main(cmd, h, o, port):
     """
     This executable loads config.py for the configuration parameters
     Commands:
@@ -31,6 +33,7 @@ if __name__ == '__main__':
       screenshot -- regenerate screenshots
       latex      -- run latex and generate pdfs
       server     -- run webserver for nice UI
+      export     -- export into a folder for static deployment
     """
 
     if cmd == "screenshot":
@@ -39,5 +42,11 @@ if __name__ == '__main__':
       proc_latex()
     elif cmd == 'server':
       run_server('localhost', port)
+    elif cmd == "export":
+      if o and o != "":
+        export(o)
+      else:
+        print "specify an output directory using -o"
+
 
   main()

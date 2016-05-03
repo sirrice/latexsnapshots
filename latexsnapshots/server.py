@@ -24,6 +24,42 @@ from config import *
 
 engine = create_engine(dburi)
 
+def index(db):
+  cur = db.execute("SELECT paper_name, count(distinct commit_id) as count FROM papers GROUP BY paper_name")
+  ds = [dict(zip(cur.keys(), row)) for row in cur]
+  return render_template("index.html", papers=ds)
+
+
+
+def paper(db, paper_name):
+  cur = db.execute("""
+    SELECT paper_name, commit_id, max(tstamp) as tstamp, pdfpath, max(imgpath) as imgpath, imgidx
+    FROM papers
+    WHERE paper_name = ?
+    GROUP BY paper_name, commit_id, pdfpath, imgidx
+    order by max(tstamp) desc, pdfpath, imgidx
+    """, 
+
+    (paper_name,))
+  ds = [dict(zip(cur.keys(), row)) for row in cur]
+  for d in ds:
+    d['pdfurl'] = "/pdfs/%s" % (os.path.basename(d['pdfpath']))
+    d['imgurl'] = "/imgs/%s" % (os.path.basename(d['imgpath']))
+    dt = datetime.datetime.strptime(d['tstamp'], '%Y-%m-%d %H:%M:%S')
+    d['tstamp'] = dt.strftime("%m-%d-%y %I:%M %p")
+
+
+  commits = []
+  for d in ds:
+    if len(commits) == 0 or commits[-1]['commit_id'] != d['commit_id']:
+      commits.append(dict(d))
+      commits[-1]['imgs'] = []
+    commits[-1]['imgs'].append(d['imgurl'])
+
+  return render_template("paper.html", commits=commits)
+
+
+
 def create_app(app):
 
   @app.before_request
@@ -45,40 +81,12 @@ def create_app(app):
 
 
   @app.route('/', methods=["POST", "GET"])
-  def index():
-    cur = g.conn.execute("SELECT paper_name, count(distinct commit_id) as count FROM papers GROUP BY paper_name")
-    ds = [dict(zip(cur.keys(), row)) for row in cur]
-    return render_template("index.html", papers=ds)
-
-
+  def app_index():
+    return index(g.conn)
 
   @app.route('/<paper_name>/')
-  def paper(paper_name):
-    cur = g.conn.execute("""
-      SELECT paper_name, commit_id, max(tstamp) as tstamp, pdfpath, max(imgpath) as imgpath, imgidx
-      FROM papers
-      WHERE paper_name = ?
-      GROUP BY paper_name, commit_id, pdfpath, imgidx
-      order by max(tstamp) desc, pdfpath, imgidx
-      """, 
-
-      (paper_name,))
-    ds = [dict(zip(cur.keys(), row)) for row in cur]
-    for d in ds:
-      d['pdfurl'] = "/pdfs/%s" % (os.path.basename(d['pdfpath']))
-      d['imgurl'] = "/imgs/%s" % (os.path.basename(d['imgpath']))
-      dt = datetime.datetime.strptime(d['tstamp'], '%Y-%m-%d %H:%M:%S')
-      d['tstamp'] = dt.strftime("%m-%d-%y %I:%M %p")
-
-
-    commits = []
-    for d in ds:
-      if len(commits) == 0 or commits[-1]['commit_id'] != d['commit_id']:
-        commits.append(dict(d))
-        commits[-1]['imgs'] = []
-      commits[-1]['imgs'].append(d['imgurl'])
-
-    return render_template("paper.html", commits=commits)
+  def app_paper(paper_name):
+    return paper(g.conn, paper_name)
 
 def run_server(HOST='localhost', PORT=8000,  threaded=False, debug=True):
   CURDIR = os.path.dirname(os.path.abspath(__file__))
