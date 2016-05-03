@@ -38,6 +38,8 @@ directory to import this file.
 
 
         # absolute path to the git_repo
+        # Make sure things are committed!  
+        # We will need to checkout many commit points as part of the rollback procedure.
         git_repo = "/tmp/animated"
 
         # what name for the paper?

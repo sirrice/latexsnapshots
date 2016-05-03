@@ -27,13 +27,14 @@ if __name__ == '__main__':
   @click.option("--port", type=int, default=8000, help="webserver port")
   def main(cmd, h, o, port):
     """
-    This executable loads config.py for the configuration parameters
     Commands:
 
       screenshot -- regenerate screenshots
       latex      -- run latex and generate pdfs
       server     -- run webserver for nice UI
       export     -- export into a folder for static deployment
+
+    Note: this executable loads config.py for the configuration parameters
     """
 
     if cmd == "screenshot":
