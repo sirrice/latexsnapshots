@@ -35,6 +35,12 @@ See the output of the `export` command here [http://www.eugenewu.net/latexsnapsh
         mkdir outputdir
         latexsnapshots export -o outputdir
 
+        # see the website
+        cd outputdir/
+        python -m SimpleHTTMServer 8000
+
+        # go to localhost:8000/html
+
 
 # Create a config file
 
