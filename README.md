@@ -1,3 +1,12 @@
+# What?
+
+Point `latexsnapshots` to your git repo, and it will go through the commits and identify those that change your tex files in a significant way,
+and regenerate the pdf files.  It will also take thumbnails of those pdfs, and show them in a web UI.
+
+Install it
+
+        pip install latexsnapshots
+
 # Screenshot
 
 ![Screenshot of latexsnapshots](https://raw.githubusercontent.com/sirrice/latexsnapshots/master/latexsnapshots/static/screenshot.png)
@@ -10,16 +19,18 @@ See the output of the `export` command here [http://www.eugenewu.net/latexsnapsh
 
 * Create a config file (below)
 * Generate snapshots of your latex document.  The code currently creates a snapshot every time
-  the Levenshtein distance between the `*.tex` documents is greater than 4000.  In the future, this can be
-  configurable
+  the Levenshtein distance between the `*.tex` documents is greater than a configurable distancte,
+  and when it's been more than X hours since the last snapshotted commit.
 
         latexsnapshots latex
 
-  * Note that `latexsnapshots` will create a sqlite database file based on your config file contents.  The path is relative to your current directory.
-* Run the server to see thumbnails of your snapshots
+  * Note that `latexsnapshots` will create a sqlite database file based on your config file to store metadata about the snapshots.  
+    The `dburi` path is relative to your current directory.
+* Run the server to see thumbnails of your snapshots.  You can run this while `latexsnapshots latex` is running
 
         latexsnapshots server
-* Export everything into a folder for deployment as static website
+
+* Export everything into a folder for deployment as static website: [See example](http://eugenewu.net/latexsnapshots/html/)
 
         mkdir outputdir
         latexsnapshots export -o outputdir
