@@ -13,7 +13,7 @@ from wand.image import Image, FILTER_TYPES
 from wand.color import Color
 
 from latexsnapshots.server import run_server
-from latexsnapshots.util import proc_latex, all_screenshots
+from latexsnapshots.util import proc_latex, all_screenshots, PDFROOT
 from latexsnapshots.export import export
 
 
@@ -29,18 +29,18 @@ if __name__ == '__main__':
     """
     Commands:
 
-      screenshot -- regenerate screenshots
-      latex      -- run latex and generate pdfs
-      server     -- run webserver for nice UI
-      export     -- export into a folder for static deployment
+      screenshot -- regenerate screenshots\n
+      latex      -- run latex and generate pdfs\n
+      server     -- run webserver for nice UI\n
+      export     -- export into a folder for static deployment\n
 
     Note: this executable loads config.py for the configuration parameters
     """
 
     if cmd == "screenshot":
-      all_screenshots(os.path.abspath("versions"), h=h)
+      all_screenshots(PDFROOT, h=h)
     elif cmd == "latex":
-      proc_latex()
+      proc_latex(h=h)
     elif cmd == 'server':
       run_server('localhost', port)
     elif cmd == "export":

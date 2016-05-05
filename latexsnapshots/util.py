@@ -83,7 +83,7 @@ def proc_diff(diff, latex_dir):
 
 
 
-def snapshot_latex(repo, commit, idx, paper_name, cmds_f):
+def snapshot_latex(repo, commit, idx, paper_name, cmds_f, h=300):
   repo.git.checkout(commit, force=True)
   fout = "%s_%03d" % (paper_name, idx)
   fpath = os.path.join(PDFROOT, "%s.pdf" % fout)
@@ -120,7 +120,7 @@ def screenshots(pdfpath, h=200):
       tosave = Image(width=img.width, height=img.height, background=Color("white"))
       tosave.composite(img, 0, 0)
       tosave.convert('png')
-      tosave.resize(w, h, filter='cubic', blur=.5)
+      tosave.resize(w, h, filter='lagrange', blur=.35)
 
       imgname = "%s_%02d.png" % (fprefix, imgidx)
       imgpath = os.path.join(dirpath, imgname)
@@ -133,7 +133,7 @@ def screenshots(pdfpath, h=200):
   return ret
 
 
-def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir=""):
+def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir="", h=300):
   commits_list = list(repo.iter_commits())
 
   # skip to the latest commit that has not been analyzed
@@ -155,7 +155,7 @@ def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir=""):
     idx = 0
     before = commits_list[0]
     before_dt = datetime.fromtimestamp(time.mktime(time.gmtime(before.committed_date)))
-    for o in snapshot_latex(repo, before, 0, paper_name, cmd_f):
+    for o in snapshot_latex(repo, before, 0, paper_name, cmd_f, h=h):
       save_record(db, o, paper_name, before, before_dt, 0)
     print "saving record"
 
@@ -178,7 +178,7 @@ def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir=""):
     dist = proc_diffidx(before.diff(after), latex_dir)
     if dist > min_edit_distance:
       try:
-        records = snapshot_latex(repo, after, idx, paper_name, cmd_f)
+        records = snapshot_latex(repo, after, idx, paper_name, cmd_f, h=h)
         for o in records:
           save_record(db, o, paper_name, after, after_dt, idx)
       except Exception as e:
@@ -187,13 +187,13 @@ def proc_repo(db, repo, paper_name,  cmd_f=lambda: list(), latex_dir=""):
       before = after
 
 
-def proc_latex():
+def proc_latex(h=300):
   repo = Repo(git_repo)
   assert not repo.bare
   repo.git.checkout("master", force=True)
   db = init_db(dburi)
 
-  proc_repo(db, repo, paper_name=paper_name, cmd_f=make_cmds, latex_dir=latex_dir)
+  proc_repo(db, repo, paper_name=paper_name, cmd_f=make_cmds, latex_dir=latex_dir, h=h)
 
   repo.git.checkout('master', force=True)
 
