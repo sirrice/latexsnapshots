@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='latexsnapshots',
-    version='0.0.7',
+    version='0.0.8',
     description='Create snapshots of your latex papers + UI',
     url='https://github.com/sirrice/latexsnapshots',
     author='Eugene wu',
