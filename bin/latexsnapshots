@@ -13,7 +13,7 @@ from wand.image import Image, FILTER_TYPES
 from wand.color import Color
 
 from latexsnapshots.server import run_server
-from latexsnapshots.util import proc_latex
+from latexsnapshots.util import proc_latex, all_screenshots
 from latexsnapshots.export import export
 
 
